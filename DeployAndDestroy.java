@@ -61,10 +61,6 @@ public class DeployAndDestroy{
         fillArrayNumbers(availableForWhite);
         fillArrayNumbers(availableForBlack);
 
-        // Sort the positions and the nums in descending order
-        sort(sortedWhitePositions, white);
-        sort(sortedBlackPositions, black);
-
         while (!battleFinished) {
             if (first == "white") {
                 destroy(sortedWhite, sortedWhitePositions, board);
@@ -77,58 +73,14 @@ public class DeployAndDestroy{
     }
 
     public static void destroy(int player[], int positions[], int board[]){ 
-         
+        for (int i=0; i<board.length; i++){
+
+        } 
     }
 
-    public static int[] findAvailablePositions(int available[], int num[] , int numPositions[] ) {
-        int[] availablePositions = new int[4];
-        for (int i = 0; i < available.length; i++){
-            for (int j = 0; j < numPositions.length; j++){
-                if (available[i] == num[j]) {
-                    available[i]= numPositions[j];
-                }
-            }
-        }
-        return availablePositions;
-    }
-
-
-    public static int[] findAvailable(int whiteNums[], int blackNums[], int whitePositions[], int blackPositions[]) {
-        int[] available = new int[4];
-        int index = 0;
-        // Loop through the the sorted positions
-        for (int i = 0; i < whitePositions.length-1; i++) {
-            // If the current position and the one next to it have a difference of two, it means they surround an opponent troop
-            if ((whitePositions[i] - whitePositions[i+1]) == 2) {
-                // And if the sum of them is greater than the opponent's number value then this value is available for elimination
-                if ((whiteNums[whitePositions[i]] + whiteNums[whitePositions[i+1]]) > blackNums[blackPositions[i]]) {
-                    available[index] = blackNums[blackPositions[i]];
-                    index++;
-                }
-            }
-        }
-        return available;
-    }
-
-    public static void sort(int positions[], int nums[]) {
-        for (int i = 0; i < positions.length-1; i++) {
-            int maxIndex = i;
-            for (int j = i + 1; j < positions.length; j++) {
-                if (positions[j] > positions[maxIndex]) {
-                    maxIndex = j;
-                }
-            }
-
-            // Swap
-            if (i != maxIndex) {
-                int tempPos = positions[maxIndex];
-                positions[maxIndex] = positions[i];
-                positions[i] = tempPos;
-
-                int tempNums = nums[maxIndex];
-                nums[maxIndex] = nums[i];
-                nums[i] = tempNums;
-            }
+    public static String checkColorByPosition(int board[], int position) {
+        for (int i = 0; i < board.length; i++) {
+            
         }
     }
 

@@ -22,11 +22,11 @@ public class DeployAndDestroy{
         }
 
         // Declare the arrays and fill them with 0s
-        int[] board = new int[16];
-        int[] white = new int[8];
-        int[] whitePositions = new int[8];
-        int[] black = new int [8];
-        int[] blackPositions = new int [8];
+        int[] board = new int[8];
+        int[] white = new int[4];
+        int[] whitePositions = new int[4];
+        int[] black = new int [4];
+        int[] blackPositions = new int [4];
         fillArrayNumbers(white);
         fillArrayNumbers(whitePositions);
         fillArrayNumbers(black);
@@ -34,13 +34,13 @@ public class DeployAndDestroy{
 
         // Deploy all the numbers
         for (int i = 0; i < white.length; i++) {
-            if (first == "white") {
+            if (first=="white") {
                 System.out.println("White: ");
                 deploy(white, board, whitePositions, i);
                 
                 System.out.println("Black");
                 deploy(black, board, blackPositions, i);
-            } else {
+            } else if(first=="black"){
                 // If the black is first then reverse the order
                 System.out.println("Black");
                 deploy(black, board, whitePositions, i);
@@ -52,69 +52,91 @@ public class DeployAndDestroy{
 
         // Destroy
         Boolean battleFinished = false;
-        int[] sortedWhitePositions = whitePositions;
-        int[] sortedWhite = white;
-        int[] sortedBlackPositions = blackPositions;
-        int[] sortedBlack = black;
-        int[] availableForWhite = new int[4];
-        int[] availableForBlack = new int[4];
-        fillArrayNumbers(availableForWhite);
-        fillArrayNumbers(availableForBlack);
+        int[] sortedWhitePositions = sort(whitePositions);
+        int[] sortedWhite = sort(white);
+        int[] sortedBlackPositions = sort(blackPositions);
+        int[] sortedBlack = sort(black);
 
         while (!battleFinished) {
             if (first == "white") {
+                System.out.println("White: ");
                 destroy(sortedWhite, sortedWhitePositions, board);
+
+                System.out.println("Black: ");
                 destroy(sortedBlack, sortedBlackPositions, board);
             } else {
+                System.out.println("Black: ");
                 destroy(sortedBlack, sortedBlackPositions, board);
+                System.out.println("White: ");
                 destroy(sortedWhite, sortedWhitePositions, board);
             }
         }
     }
 
     public static void destroy(int nums[], int positions[], int board[]){ 
+        // Print board
+        printBoard(board);
+
         int pos = -1;
+        int num = -1;
         do {
-            int num = input("Give number");
+            num = input("Give target");
             // Check if the number exists   
-            for (int i=0; i < positions.length; i++) {
+            for (int i = 0; i < positions.length; i++) {
                 if (nums[i] == num) {
                     pos = positions[i];
+                    break;
                 }
             }    
         } while (pos != -1);
 
         // Find if there is an opponent number
-        Boolean isLeftOpponent = false;
-        Boolean isRightOpponent = false;
+        Boolean isLeftMine = false;
+        Boolean isRightMine = false;
+        if ((positions[pos-1] - positions[pos]) != 1) {
+            isLeftMine = true;
+        }
+        if ((positions[pos+1] - positions[pos]) != 1) {
+            isRightMine = true;
+        }
 
-        if ((positions[pos-1] ))
+        // Find the sum
+        int sum = 0;
+        if (isLeftMine) {
+            sum += nums[pos-1];
+        } else if (isRightMine) {
+            sum += nums[pos+1];
+        } else {
+            sum += nums[pos-1] + nums[pos+1];
+        }
 
-        /* 
-        for (int i = 1; i < positions.length-1; i++) {
-            if ((positions[i-1] - positions[i]) != 1) {
-                isLeftOpponent = true;
-            }
-            
-            if ((positions[i+1] - positions[i] != 1)) {
-                isRightOpponent = true;
-            }
-        }*/
-
-        
+        // Find if the target (num) is destroyable
+        // If it is destroy it then the other player plays
+        if (sum - num > 0) {
+            board[pos] = 0;
+        } else {
+            System.out.println("You cannot destroy this number\nYou lost your turn...");
+        }
     }
 
-    public static Boolean isThatColor(int positions[], int pos, String direction) {
-        Boolean isFound = false;
-        for (int i = 1; i < positions.length-1; i++) {
-            if (direction == "left" && (positions[i-1] - pos) == -1) {
-                isFound = true;
+    public static int[] sort(int arr[]) {
+        for (int i = 0; i < arr.length-1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[maxIndex]) {
+                    maxIndex = j;
+                }
             }
-            if (direction == "right" && (positions[i+1] - pos) == 1 ){
-                isFound = true;
+
+            // Swap
+            if (arr[i] != arr[maxIndex]) {
+                int temp = arr[maxIndex];
+                arr[maxIndex] = arr[i];
+                arr[i] = temp;
             }
         }
-        return isFound;
+
+        return arr;
     }
 
 

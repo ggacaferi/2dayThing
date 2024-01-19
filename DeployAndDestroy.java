@@ -72,16 +72,49 @@ public class DeployAndDestroy{
         }
     }
 
-    public static void destroy(int player[], int positions[], int board[]){ 
-        for (int i=0; i<board.length; i++){
+    public static void destroy(int nums[], int positions[], int board[]){ 
+        int pos = -1;
+        do {
+            int num = input("Give number");
+            // Check if the number exists   
+            for (int i=0; i < positions.length; i++) {
+                if (nums[i] == num) {
+                    pos = positions[i];
+                }
+            }    
+        } while (pos != -1);
 
-        } 
+        // Find if there is an opponent number
+        Boolean isLeftOpponent = false;
+        Boolean isRightOpponent = false;
+
+        if ((positions[pos-1] ))
+
+        /* 
+        for (int i = 1; i < positions.length-1; i++) {
+            if ((positions[i-1] - positions[i]) != 1) {
+                isLeftOpponent = true;
+            }
+            
+            if ((positions[i+1] - positions[i] != 1)) {
+                isRightOpponent = true;
+            }
+        }*/
+
+        
     }
 
-    public static String checkColorByPosition(int board[], int position) {
-        for (int i = 0; i < board.length; i++) {
-            
+    public static Boolean isThatColor(int positions[], int pos, String direction) {
+        Boolean isFound = false;
+        for (int i = 1; i < positions.length-1; i++) {
+            if (direction == "left" && (positions[i-1] - pos) == -1) {
+                isFound = true;
+            }
+            if (direction == "right" && (positions[i+1] - pos) == 1 ){
+                isFound = true;
+            }
         }
+        return isFound;
     }
 
 
